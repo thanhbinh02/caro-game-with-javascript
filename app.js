@@ -33,22 +33,134 @@ function addGo(e) {
     go = go === 'circle' ? "cross" : "circle"
     infoDisplay.textContent = "It is now" + go + "'s go."
     e.target.removeEventListener("click", addGo)
-    checkScore()
+    
+    const id = e.target.id
+    const item = e.target.firstChild?.classList.value
+    const [x, y] = calculateCoordinates(id, 10)
+    
+    console.log("checkWin(10, item, x, y)", checkWin(10, item, x, y))
+}  
+
+function checkScore() {}
+
+function checkWin(board, player, row, col) {
+    const directions = [
+        // [0, 1], // kiẻm tra chiều +x 
+        // [0, -1], // kiểm tra chiều -x 
+        // [1, 0], // kiểu tra chiều +y
+        // [-1, 0], // kiểu tra chiều -y
+        // [1, 1], // chéo x+, y+
+        // [-1, 1] // chéo x+,  y-, 
+        // [1, -1]  // chéo x-, y+ 
+          [-1, -1]  // chéo x-, y-  
+    ];
+
+    for (const direction of directions) {
+        const [dy, dx] = direction;
+        let count = 1;
+       
+        for (let i = 1; i < 5; i++) {
+            const newX = row + i * dx;
+            const newY = col + i * dy;
+            const id = calculateCellNumber(newX, newY, 10)
+            const item = document.getElementById(id);    
+
+            console.log("item", item)
+
+            // if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
+            //     const id = calculateCellNumber(newX, newY, 10)
+            //     const item = document.getElementById(id);            
+            //     const containsPlayer = item.firstChild?.classList.contains(player)
+      
+            //     if (containsPlayer) {
+            //         count++;
+            //     } else {
+            //         break
+            //     }
+                
+            // } else {
+            //     break;
+            // }
+           
+        }
+
+        if (count === 5) {
+            return true; 
+        }
+    }
+
+    return false; 
 }
 
-function checkScore() {
-    const allSquares = document.querySelectorAll(".square")
-    
-    const winingCombos = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-    ]
-    
-    winingCombos.forEach(array => {
-    
 
-    } )
+    // const winingCombos = [
+    //     [0,1,2], [3,4,5], [6,7,8],
+    //     [0,3,6], [1,4,7], [2,5,8],
+    //     [0,4,8], [2,4,6]
+    // ]
+    
+    // winingCombos.forEach(array => {
+        
+    // } )
 
+}
+
+function calculateCoordinates(cellNumber, columns) {
+    const row = Math.floor(cellNumber / columns);
+    const col = cellNumber % columns;
+    return [col, row];
+}
+
+function calculateCellNumber(x, y, columns) {
+    return x + y * columns;
+}
+
+function checkWin(board, player, row, col) {
+    const directions = [
+        // [0, 1], // kiẻm tra chiều +x 
+        // [0, -1], // kiểm tra chiều -x 
+        // [1, 0], // kiểu tra chiều +y
+        // [-1, 0], // kiểu tra chiều -y
+        // [1, 1], // chéo x+, y+
+        // [-1, 1] // chéo x+,  y-, 
+        // [1, -1]  // chéo x-, y+ 
+          [-1, -1]  // chéo x-, y-  
+    ];
+
+    for (const direction of directions) {
+        const [dy, dx] = direction;
+        let count = 1;
+       
+        for (let i = 1; i < 5; i++) {
+            const newX = row + i * dx;
+            const newY = col + i * dy;
+            const id = calculateCellNumber(newX, newY, 10)
+            const item = document.getElementById(id);    
+
+            console.log("item", item)
+
+            // if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
+            //     const id = calculateCellNumber(newX, newY, 10)
+            //     const item = document.getElementById(id);            
+            //     const containsPlayer = item.firstChild?.classList.contains(player)
+      
+            //     if (containsPlayer) {
+            //         count++;
+            //     } else {
+            //         break
+            //     }
+                
+            // } else {
+            //     break;
+            // }
+           
+        }
+
+        if (count === 5) {
+            return true; 
+        }
+    }
+
+    return false; 
 }
 
