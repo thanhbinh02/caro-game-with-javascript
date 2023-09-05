@@ -37,62 +37,13 @@ function addGo(e) {
     const id = e.target.id
     const item = e.target.firstChild?.classList.value
     const [x, y] = calculateCoordinates(id, 10)
-    
-    console.log("checkWin(10, item, x, y)", checkWin(10, item, x, y))
+
+    checkWin(10, item, x, y)
 }  
 
-function checkScore() {}
-
-function checkWin(board, player, row, col) {
-    const directions = [
-        // [0, 1], // kiẻm tra chiều +x 
-        // [0, -1], // kiểm tra chiều -x 
-        // [1, 0], // kiểu tra chiều +y
-        // [-1, 0], // kiểu tra chiều -y
-        // [1, 1], // chéo x+, y+
-        // [-1, 1] // chéo x+,  y-, 
-        // [1, -1]  // chéo x-, y+ 
-          [-1, -1]  // chéo x-, y-  
-    ];
-
-    for (const direction of directions) {
-        const [dy, dx] = direction;
-        let count = 1;
-       
-        for (let i = 1; i < 5; i++) {
-            const newX = row + i * dx;
-            const newY = col + i * dy;
-            const id = calculateCellNumber(newX, newY, 10)
-            const item = document.getElementById(id);    
-
-            console.log("item", item)
-
-            // if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
-            //     const id = calculateCellNumber(newX, newY, 10)
-            //     const item = document.getElementById(id);            
-            //     const containsPlayer = item.firstChild?.classList.contains(player)
-      
-            //     if (containsPlayer) {
-            //         count++;
-            //     } else {
-            //         break
-            //     }
-                
-            // } else {
-            //     break;
-            // }
-           
-        }
-
-        if (count === 5) {
-            return true; 
-        }
-    }
-
-    return false; 
-}
-
-
+function checkScore() {
+    // const allSquares = document.querySelectorAll(".square")
+    
     // const winingCombos = [
     //     [0,1,2], [3,4,5], [6,7,8],
     //     [0,3,6], [1,4,7], [2,5,8],
@@ -102,7 +53,6 @@ function checkWin(board, player, row, col) {
     // winingCombos.forEach(array => {
         
     // } )
-
 }
 
 function calculateCoordinates(cellNumber, columns) {
@@ -116,51 +66,74 @@ function calculateCellNumber(x, y, columns) {
 }
 
 function checkWin(board, player, row, col) {
-    const directions = [
-        // [0, 1], // kiẻm tra chiều +x 
-        // [0, -1], // kiểm tra chiều -x 
-        // [1, 0], // kiểu tra chiều +y
-        // [-1, 0], // kiểu tra chiều -y
-        // [1, 1], // chéo x+, y+
-        // [-1, 1] // chéo x+,  y-, 
-        // [1, -1]  // chéo x-, y+ 
-          [-1, -1]  // chéo x-, y-  
-    ];
+    const DIRECTIONS = [
+        [[0, 1], [0, -1]]
+     ];
 
-    for (const direction of directions) {
-        const [dy, dx] = direction;
+    for (const directions of DIRECTIONS) {
+        
         let count = 1;
-       
-        for (let i = 1; i < 5; i++) {
-            const newX = row + i * dx;
-            const newY = col + i * dy;
-            const id = calculateCellNumber(newX, newY, 10)
-            const item = document.getElementById(id);    
+     
+        
+        for (let k = 0; k < 2; k++) {
+            const [dy, dx] = directions[k]
 
-            console.log("item", item)
+            let x = 0;  
+            let y = 0; 
 
-            // if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
-            //     const id = calculateCellNumber(newX, newY, 10)
-            //     const item = document.getElementById(id);            
-            //     const containsPlayer = item.firstChild?.classList.contains(player)
-      
-            //     if (containsPlayer) {
-            //         count++;
-            //     } else {
-            //         break
-            //     }
+
+            for (let i = 1; i < 5; i++) {
+                const newX = row + i * dx;
+                const newY = col + i * dy;
+        
+                const id = calculateCellNumber(newX, newY, 10)
+                const item = document.getElementById(id);  
+    
+                console.log("item", item)
+                console.log("item", item)
                 
-            // } else {
-            //     break;
-            // }
-           
-        }
-
+            }
+        }    
         if (count === 5) {
-            return true; 
+            console.log("x", x)
+            console.log("y", y)
+
+
+            const [dy1, dx1] = directions[0]
+            const [dy2, dx2] = directions[1]
+            
+
+
+            
+            for (let n = 1; n < x + 1; n++) {
+                const newX = row + n * dx1;
+                const newY = col + n * dy1;
+                const id = calculateCellNumber(newX, newY, 10)
+                const item1 = document.getElementById(id);  
+                item1.classList.add("win")      
+            }
+
+            for (let m = 1; m < y+1; m++) {
+                const newX = row + m * dx2;
+                const newY = col + m * dy2;
+                const id = calculateCellNumber(newX, newY, 10)
+                const item2= document.getElementById(id);  
+                item2.classList.add("win")      
+            }
+
+            const point = calculateCellNumber(row, col, 10)
+            const itemPoint = document.getElementById(point);  
+            itemPoint.classList.add("win")      
+            console.log("itemPoint", itemPoint)
+
+            return true;        
         }
     }
 
     return false; 
 }
+
+
+
+
 
